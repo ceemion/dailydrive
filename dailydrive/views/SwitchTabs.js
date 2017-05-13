@@ -20,14 +20,14 @@ import Expenses from './Expenses';
 import Reports from './Reports';
 import Profile from './Profile';
 
-import TasksIcon from '../assets/images/tab_bar_icons/30 - iPhone Tasks.png';
-import TasksIconSelected from '../assets/images/tab_bar_icons/30 - iPhone Tasks Selected.png';
-import ProfileIcon from '../assets/images/tab_bar_icons/30 - iPhone Profile.png';
-import ProfileIconSelected from '../assets/images/tab_bar_icons/30 - iPhone Profile Selected.png';
-import ExpensesIcon from '../assets/images/tab_bar_icons/30 - iPhone Expenses.png';
-import ExpensesIconSelected from '../assets/images/tab_bar_icons/30 - iPhone Expenses Selected.png';
-import ReportsIcon from '../assets/images/tab_bar_icons/30 - iPhone Reports.png';
-import ReportsIconSelected from '../assets/images/tab_bar_icons/30 - iPhone Reports Selected.png';
+import TasksIcon from '../assets/images/tab_bar_icons/tasks.png';
+import TasksIconSelected from '../assets/images/tab_bar_icons/tasks_selected.png';
+import ProfileIcon from '../assets/images/tab_bar_icons/profile.png';
+import ProfileIconSelected from '../assets/images/tab_bar_icons/profile_selected.png';
+import ExpensesIcon from '../assets/images/tab_bar_icons/expenses.png';
+import ExpensesIconSelected from '../assets/images/tab_bar_icons/expenses_selected.png';
+import ReportsIcon from '../assets/images/tab_bar_icons/reports.png';
+import ReportsIconSelected from '../assets/images/tab_bar_icons/reports_selected.png';
 
 class SwitchTabs extends Component {
   constructor(props) {
