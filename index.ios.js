@@ -7,9 +7,9 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Navigator,
   StyleSheet
 } from 'react-native';
+import NavigationExperimental from 'react-native-deprecated-custom-components';
 
 import * as firebase from 'firebase';
 import Firebase from './dailydrive/firebase/init';
@@ -67,7 +67,7 @@ export default class DailyDrive extends Component {
       return (route.sceneConfig);
     } else {
       return ({
-        ...Navigator.SceneConfigs.HorizontalSwipeJump,
+        ...NavigationExperimental.Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       });
     }
@@ -76,10 +76,10 @@ export default class DailyDrive extends Component {
   render() {
     if (this.state.userLoaded) {
       return (
-        <Navigator
+        <NavigationExperimental.Navigator
           initialRoute={{name: this.state.initialView}}
-          renderScene={Melden.renderScene}
-          configureScene={Melden.configureScene}
+          renderScene={DailyDrive.renderScene}
+          configureScene={DailyDrive.configureScene}
         />);
     } else {
       return null;
