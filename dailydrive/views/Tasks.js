@@ -91,7 +91,7 @@ class Tasks extends Component {
     if (!this.state.working && this.state.dailyTasks.length === 0) {
       return (
         <View>
-          <Text style={styles.noTask}>You're all set, no tasks at this time!</Text>
+          <Text style={styles.noTask}>You're all set, no tasks today!</Text>
         </View>
       )
     }

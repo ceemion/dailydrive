@@ -26,7 +26,7 @@ import {
   inputBorder
 } from '../utils/colors';
 import DismissKeyboard from "dismissKeyboard";
-import MeldenIcon from '../assets/images/melden.png';
+import MeldenIcon from '../assets/images/dailydrive.png';
 import * as firebase from "firebase";
 
 class Login extends Component {
