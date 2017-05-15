@@ -3,49 +3,49 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "app_icon_40.png",
+      "filename" : "appicon_skate_moneybag0.33x.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "app_icon_half.png",
+      "filename" : "appicon_skate_moneybag0.5x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "app_icon_58.png",
+      "filename" : "appicon_skate_moneybag0.48x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "app_icon_87.png",
+      "filename" : "appicon_skate_moneybag0.73x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "app_icon@80.png",
+      "filename" : "appicon_skate_moneybag0.67x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "app_icon_one-1.png",
+      "filename" : "appicon_skate_moneybag1x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "app_icon_one.png",
+      "filename" : "appicon_skate_moneybag1x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "app_icon@180.png",
+      "filename" : "appicon_skate_moneybag1.5x-1.png",
       "scale" : "3x"
     }
   ],
