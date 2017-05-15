@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     marginRight: 4
   },
   taskContainer: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     borderBottomColor: listBorder,
     borderBottomWidth: 0.5,
     flexDirection: 'row',
@@ -227,7 +227,8 @@ const styles = StyleSheet.create({
   },
   taskTitle: {
     color: text,
-    fontSize: 16
+    fontSize: 17,
+    marginTop: 5
   },
   noTask: {
     color: textMute,

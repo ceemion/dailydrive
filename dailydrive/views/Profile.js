@@ -193,12 +193,13 @@ const styles = StyleSheet.create({
   },
   name: {
     color: text,
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 30,
     textAlign: 'center'
   },
   email: {
     color: primary,
+    fontSize: 18,
     textAlign: 'center'
   },
   button: {

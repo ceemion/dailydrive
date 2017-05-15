@@ -108,10 +108,12 @@ const styles = StyleSheet.create({
   },
   title: {
     flexGrow: 2,
+    marginTop: 15,
     zIndex: -1
   },
   text: {
-    fontSize: 17,
+    fontSize: 20,
+    fontWeight: '500',
     textAlign: 'center'
   },
   leftContainer: {
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
     width: 12
   },
   leftText: {
+    fontSize: 18,
     color: primary
   },
   rightContainer: {
@@ -143,6 +146,7 @@ const styles = StyleSheet.create({
     width: 27
   },
   rightText: {
+    fontSize: 18,
     color: primary
   }
 });
