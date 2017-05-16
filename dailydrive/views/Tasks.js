@@ -116,7 +116,11 @@ class Tasks extends Component {
 
           <View style={completed ? styles.titleContainerCompleted : styles.titleContainer}>
             <Text style={styles.taskTitle}>{task.title}</Text>
-            <Text>{task.completedAt}</Text>
+            { task.completedAt ?
+              <View style={styles.completedContainer}>
+                <Text style={styles.completedText}>Completed {moment(task.completedAt).calendar()}</Text>
+              </View> : null
+            }
           </View>
 
           { !completed ?
@@ -227,8 +231,18 @@ const styles = StyleSheet.create({
   },
   taskTitle: {
     color: text,
-    fontSize: 17,
-    marginTop: 5
+    fontSize: 17
+  },
+  completedContainer: {
+    borderTopColor: 'rgba(0,0,0,0.15)',
+    borderTopWidth: 0.5,
+    marginTop: 10,
+    paddingTop: 10
+  },
+  completedText: {
+    color: text,
+    fontSize: 13,
+    opacity: 0.8
   },
   noTask: {
     color: textMute,
