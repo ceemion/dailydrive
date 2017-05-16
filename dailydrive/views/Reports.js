@@ -28,8 +28,6 @@ class Reports extends Component {
         <TopBar title="Reports" />
 
         <View style={styles.content}>
-          <Text>Reports</Text>
-          <Text>All our reports</Text>
         </View>
       </View>
     )

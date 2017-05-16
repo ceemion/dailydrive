@@ -6,39 +6,72 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    StyleSheet
+    ScrollView,
+    StyleSheet,
+    dismissKeyboard,
+    ActivityIndicator
 } from 'react-native';
-
 import {
+  CURRENT_DATE,
   titleHeight
 } from '../utils/variables';
+import {
+  textMute
+} from '../utils/colors';
+import DismissKeyboard from 'dismissKeyboard';
 
 import TopBar from './TopBar';
+import AddExpenseIcon from '../assets/images/header_bar_icons/add_expense.png';
 
 class Expenses extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      working: false
+    };
   }
 
   render() {
     return (
-      <View>
-        <TopBar title="Expenses" />
+      <View style={styles.container} onPress={() => {DismissKeyboard()}}>
+        <TopBar
+          title="Expenses"
+          right={true}
+          rightIcon={AddExpenseIcon}
+        />
 
-        <View style={styles.content}>
-          <Text>Expenses</Text>
-          <Text>All our expenses</Text>
-        </View>
+        <ScrollView style={styles.content}>
+          <Text style={styles.currentDate}>Today: {CURRENT_DATE}</Text>
+
+          <View style={styles.expensesContainer}>
+          </View>
+
+          <View style={styles.working}>
+            { this.state.working ?
+                <ActivityIndicator animating={true}/> : null
+            }
+          </View>
+        </ScrollView>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  content: {
-    marginTop: titleHeight
+  container: {
+    flex: 1
+  },
+  content: {},
+  currentDate: {
+    color: textMute,
+    fontSize: 12,
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  expensesContainer: {},
+  working: {
+    marginTop: 10
   }
 });
 

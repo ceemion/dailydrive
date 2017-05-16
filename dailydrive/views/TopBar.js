@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flexGrow: 2,
-    marginTop: 15,
+    marginTop: 12,
     zIndex: -1
   },
   text: {

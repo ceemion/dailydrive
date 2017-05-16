@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import {
+  CURRENT_DATE,
   titleHeight
 } from '../utils/variables';
 import {
@@ -83,6 +84,9 @@ class Tasks extends Component {
         user: user
       })
     } catch(error) {
+      this.setState({
+        working: false
+      })
       console.log('could not retrieve user: ', error);
     }
   }
@@ -162,8 +166,6 @@ class Tasks extends Component {
   }
 
   render() {
-    const currentDate = moment().format('dddd, MMMM Do YYYY');
-
     return (
       <View style={styles.container} onPress={() => {DismissKeyboard()}}>
         <TopBar
@@ -179,7 +181,7 @@ class Tasks extends Component {
         />
 
         <ScrollView style={styles.content}>
-          <Text style={styles.currentDate}>Today: {currentDate}</Text>
+          <Text style={styles.currentDate}>Today: {CURRENT_DATE}</Text>
 
           <View style={styles.tasksContainer}>
             {this.renderTasks()}
