@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     position: 'absolute',
     left: 8,
-    top: -10
+    top: -6
   },
   leftIcon: {
     height: 20,
