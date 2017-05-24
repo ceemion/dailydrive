@@ -24,6 +24,9 @@ import {
 } from '../utils/colors';
 import DismissKeyboard from 'dismissKeyboard';
 
+import * as firebase from "firebase";
+import Database from '../firebase/database';
+
 import TopBar from './TopBar';
 import AddExpenseIcon from '../assets/images/header_bar_icons/add_expense.png';
 
@@ -32,6 +35,7 @@ class Expenses extends Component {
     super(props);
 
     this.state = {
+      user: null,
       adding: false,
       working: false,
       amount: "",
@@ -42,6 +46,21 @@ class Expenses extends Component {
     this.addExpense = this.addExpense.bind(this);
   }
 
+  async componentDidMount() {
+    try {
+      let user = await firebase.auth().currentUser;
+
+      this.setState({
+        user: user
+      })
+    } catch(error) {
+      this.setState({
+        working: false
+      })
+      console.log('could not retrieve user: ', error);
+    }
+  }
+
   toggleExpenseForm() {
     this.setState({
       adding: !this.state.adding,
@@ -50,9 +69,18 @@ class Expenses extends Component {
     })
   }
 
-  addExpense() {
-    console.log(this.state)
-    this.setState({adding: false})
+  async addExpense() {
+    try {
+      Database.addExpense(this.state.user, {
+        amount: this.state.amount,
+        details: this.state.details
+      })
+
+      this.setState({adding: false})
+    }
+    catch(error) {
+      console.log('add expense error: ', error)
+    }
   }
 
   render() {

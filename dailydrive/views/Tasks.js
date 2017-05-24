@@ -141,7 +141,7 @@ class Tasks extends Component {
       Database.createTask(this.state.user, promptValue)
     }
     catch(error) {
-      console.log('update error: ', error)
+      console.log('create error: ', error)
     }
   }
 

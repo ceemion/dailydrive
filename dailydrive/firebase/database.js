@@ -30,6 +30,13 @@ class Database {
     return firebase.database().ref(userPath).update(data);
   }
 
+  /**
+   * Creates a task for a registered user
+   * @param user
+   * @param title
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+
   static createTask(user, title) {
     const taskData = {
       owner: user.displayName,
@@ -71,6 +78,31 @@ class Database {
 
     firebase.database().ref(taskPath).update(payload)
     firebase.database().ref(userTaskPath).update(payload)
+  }
+
+  /**
+   * Adds an expense for a registered user
+   * @param user
+   * @param data
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+
+  static addExpense(user, data) {
+    const expenseData = {
+      owner: user.displayName,
+      uid: user.uid,
+      amount: data.amount,
+      details: data.details,
+      createdAt: NOW
+    }
+
+    let newExpenseKey = firebase.database().ref().child('expenses').push().key;
+    let updates = {};
+
+    updates[`/expenses/${TODAY}/${newExpenseKey}`] = expenseData;
+    updates[`/user-expenses/${TODAY}/${user.uid}/${newExpenseKey}`] = expenseData;
+
+    return firebase.database().ref().update(updates);
   }
 }
 
