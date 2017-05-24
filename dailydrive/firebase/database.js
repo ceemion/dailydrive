@@ -104,6 +104,11 @@ class Database {
 
     return firebase.database().ref().update(updates);
   }
+
+  static listenForUserExpenses() {
+    const userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref(`/user-expenses/${TODAY}/${userId}`);
+  }
 }
 
 export default Database;

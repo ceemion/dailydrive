@@ -37,13 +37,34 @@ class Expenses extends Component {
     this.state = {
       user: null,
       adding: false,
-      working: false,
+      working: true,
       amount: "",
-      details: ""
+      details: "",
+      dailyExpenses: []
     };
+
+    Database.listenForUserExpenses().on('value', snapshot => {
+        let arr = [];
+
+        if (snapshot.val()) {
+          let keys = Object.keys(snapshot.val());
+
+          for (const key of keys) {
+            let e = snapshot.val()[key];
+            e.expenseId = key;
+            arr.push(e)
+          }
+        }
+
+        this.setState({
+          working: false,
+          dailyExpenses: arr
+        })
+      })
 
     this.toggleExpenseForm = this.toggleExpenseForm.bind(this);
     this.addExpense = this.addExpense.bind(this);
+    this.populateExpenses = this.populateExpenses.bind(this);
   }
 
   async componentDidMount() {
@@ -81,6 +102,32 @@ class Expenses extends Component {
     catch(error) {
       console.log('add expense error: ', error)
     }
+  }
+
+  populateExpenses() {
+    if (this.state.working) { return; }
+
+    const expenses = this.state.dailyExpenses;
+
+    if (!this.state.working && expenses.length) {
+      return (
+        expenses.map((expense, $index) => {
+          return (
+            <View key={$index}>
+              <Text>Amount {expense.amount}</Text>
+              <Text>Details {expense.details}</Text>
+              <Text>Date {expense.createdAt}</Text>
+            </View>
+          )
+        })
+      )
+    }
+
+    return (
+      <View>
+        <Text>No expenses today</Text>
+      </View>
+    )
   }
 
   render() {
@@ -123,6 +170,10 @@ class Expenses extends Component {
                 />
               </View> : null
             }
+          </View>
+
+          <View>
+            {this.populateExpenses()}
           </View>
 
           <View style={styles.working}>
