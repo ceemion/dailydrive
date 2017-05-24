@@ -113,7 +113,7 @@ class CreateAccount extends Component {
 
         <ScrollView>
         <View style={styles.form}>
-          <Alert type={this.state.responseType} text={this.state.response} />
+          <Alert message={{type: this.state.responseType, text: this.state.response}} />
 
           <TextInput
             style={styles.textInput}

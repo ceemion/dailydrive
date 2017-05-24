@@ -28,6 +28,7 @@ import * as firebase from "firebase";
 import Database from '../firebase/database';
 
 import TopBar from './TopBar';
+import Alert from './Alert';
 import AddExpenseIcon from '../assets/images/header_bar_icons/add_expense.png';
 
 class Expenses extends Component {
@@ -38,6 +39,7 @@ class Expenses extends Component {
       user: null,
       adding: false,
       working: true,
+      message: {},
       amount: "",
       details: "",
       dailyExpenses: []
@@ -86,11 +88,22 @@ class Expenses extends Component {
     this.setState({
       adding: !this.state.adding,
       amount: "",
-      details: ""
+      details: "",
+      message: {}
     })
   }
 
   async addExpense() {
+    if (!this.state.amount || !this.state.details) {
+      this.setState({
+        message: {
+          text: 'Enter amount and details',
+          type: 'error'
+        }
+      });
+      return;
+    }
+
     try {
       Database.addExpense(this.state.user, {
         amount: this.state.amount,
@@ -150,6 +163,8 @@ class Expenses extends Component {
           <View style={styles.expensesContainer}>
             { this.state.adding ?
               <View>
+                <Alert message={this.state.message} />
+
                 <TextInput
                   style={styles.textInput}
                   onChangeText={(amount) => this.setState({amount})}

@@ -12,28 +12,32 @@ import {
 } from '../utils/colors';
 
 const Alert = (props) => {
+  if (!props.message.type || !props.message.text) {
+    return null;
+  }
+
   return (
-    <View style={[styles.responseBox, {borderColor: _setResponseColor(props.type)}]}>
+    <View style={[styles.responseBox, {borderColor: _setResponseColor(props.message.type)}]}>
       <Text
-        style={[styles.responseText, {color: _setResponseColor(props.type)}]}>
-        {props.text}
+        style={[styles.responseText, {color: _setResponseColor(props.message.type)}]}>
+        {props.message.text}
       </Text>
     </View>
   )
 }
 
 const _setResponseColor = (type) => {
-    switch(type.toLocaleLowerCase()) {
-      case 'success':
-        return success;
-      case 'error':
-        return error;
-      case 'busy':
-        return textMute;
-      default:
-        return 'transparent'
-    }
+  switch(type.toLocaleLowerCase()) {
+    case 'success':
+      return success;
+    case 'error':
+      return error;
+    case 'busy':
+      return textMute;
+    default:
+      return 'transparent'
   }
+}
 
 const styles = StyleSheet.create({
   responseBox: {
