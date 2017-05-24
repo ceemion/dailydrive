@@ -29,6 +29,7 @@ import {
 import DismissKeyboard from "dismissKeyboard";
 import MeldenIcon from '../assets/images/dailydrive.png';
 import * as firebase from "firebase";
+import Alert from './Alert';
 
 class Login extends Component {
   constructor(props) {
@@ -42,23 +43,9 @@ class Login extends Component {
         animating: false
     };
 
-    this._setResponseColor = this._setResponseColor.bind(this);
     this._renderButtonText = this._renderButtonText.bind(this);
     this.login = this.login.bind(this);
     this.createAccount = this.createAccount.bind(this);
-  }
-
-  _setResponseColor() {
-    switch(this.state.responseType.toLocaleLowerCase()) {
-      case 'success':
-        return success;
-      case 'error':
-        return error;
-      case 'busy':
-        return textMute;
-      default:
-        return 'transparent'
-    }
   }
 
   _renderButtonText() {
@@ -123,12 +110,7 @@ class Login extends Component {
           </View>
         
           <View style={styles.form}>
-            <View style={[styles.responseBox, {borderColor: this._setResponseColor()}]}>
-              <Text
-                style={[styles.responseText, {color: this._setResponseColor()}]}>
-                {this.state.response}
-              </Text>
-            </View>
+            <Alert type={this.state.responseType} text={this.state.response} />
 
             <TextInput
               style={styles.textInput}
@@ -197,16 +179,6 @@ const styles = StyleSheet.create({
   form: {
     flexGrow: 1,
     marginTop: 10
-  },
-  responseBox: {
-    borderRadius: 50,
-    borderWidth: 0.5,
-    margin: 10,
-    padding: 5
-  },
-  responseText: {
-    fontSize: 12,
-    textAlign: 'center'
   },
   textInput: {
     backgroundColor: white,
