@@ -9,6 +9,7 @@ import {
     Image,
     Button,
     TextInput,
+    ScrollView,
     StyleSheet,
     dismissKeyboard,
     TouchableOpacity,
@@ -114,51 +115,58 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container} onPress={() => {DismissKeyboard()}}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.mainIcon}>
-            <Image source={MeldenIcon} />
-          </Text>
-        </View>
-       
-        <View style={styles.form}>
-          <View style={[styles.responseBox, {borderColor: this._setResponseColor()}]}>
-            <Text
-              style={[styles.responseText, {color: this._setResponseColor()}]}>
-              {this.state.response}
+        <ScrollView>
+          <View style={styles.iconContainer}>
+            <Text style={styles.mainIcon}>
+              <Image source={MeldenIcon} />
             </Text>
           </View>
+        
+          <View style={styles.form}>
+            <View style={[styles.responseBox, {borderColor: this._setResponseColor()}]}>
+              <Text
+                style={[styles.responseText, {color: this._setResponseColor()}]}>
+                {this.state.response}
+              </Text>
+            </View>
 
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(email) => this.setState({email})}
-            value={this.state.email}
-            autoCapitalize="none"
-            placeholder="email address"
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(password) => this.setState({password})}
-            value={this.state.password}
-            autoCapitalize="none"
-            placeholder="password"
-            password={true}
-          />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+              autoCapitalize="none"
+              placeholder="email address"
+              keyboardType="email-address"
+              spellCheck={false}
+              returnKeyType="next"
+              enablesReturnKeyAutomatically={true}
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password}
+              autoCapitalize="none"
+              placeholder="password"
+              password={true}
+              returnKeyType="done"
+              enablesReturnKeyAutomatically={true}
+            />
 
-          <View>
-            <TouchableOpacity onPress={this.login}>
-              <View style={styles.button}>
-                {this._renderButtonText()}
-              </View>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity onPress={this.login}>
+                <View style={styles.button}>
+                  {this._renderButtonText()}
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.signatureContainer}>
-          <Text style={styles.signature}>
-            powered by <Text style={{color: primary}}>Kompila</Text>
-          </Text>
-        </View>
+          <View style={styles.signatureContainer}>
+            <Text style={styles.signature}>
+              powered by <Text style={{color: primary}}>Kompila</Text>
+            </Text>
+          </View>
+        </ScrollView>
 
         <TouchableOpacity onPress={this.createAccount}>
           <View style={styles.getStarted}>

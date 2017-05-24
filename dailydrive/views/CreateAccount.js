@@ -8,6 +8,7 @@ import {
     View,
     Button,
     TextInput,
+    ScrollView,
     StyleSheet,
     dismissKeyboard,
     TouchableOpacity,
@@ -123,6 +124,7 @@ class CreateAccount extends Component {
           navigator={this.props.navigator}
         />
 
+        <ScrollView>
         <View style={styles.form}>
           <View style={[styles.responseBox, {borderColor: this._setResponseColor()}]}>
             <Text
@@ -138,6 +140,9 @@ class CreateAccount extends Component {
             autoCapitalize="words"
             placeholder="name"
             autoFocus={true}
+            spellCheck={false}
+            returnKeyType="next"
+            enablesReturnKeyAutomatically={true}
           />
           <TextInput
             style={styles.textInput}
@@ -146,6 +151,9 @@ class CreateAccount extends Component {
             autoCapitalize="none"
             placeholder="email address"
             keyboardType="email-address"
+            spellCheck={false}
+            returnKeyType="next"
+            enablesReturnKeyAutomatically={true}
           />
           <TextInput
             style={styles.textInput}
@@ -154,6 +162,8 @@ class CreateAccount extends Component {
             autoCapitalize="none"
             placeholder="password"
             password={true}
+            returnKeyType="done"
+            enablesReturnKeyAutomatically={true}
           />
 
           <View>
@@ -170,6 +180,7 @@ class CreateAccount extends Component {
             powered by <Text style={{color: primary}}>Kompila</Text>
           </Text>
         </View>
+        </ScrollView>
       </View>
     )
   }
