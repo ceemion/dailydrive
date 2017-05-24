@@ -36,7 +36,9 @@ class TopBar extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     left: PropTypes.bool,
+    leftIcon: PropTypes.bool,
     leftText: PropTypes.string,
+    leftOnPress: PropTypes.func,
     navigator: PropTypes.object,
     right: PropTypes.bool,
     rightIcon: PropTypes.number,
@@ -47,9 +49,11 @@ class TopBar extends Component {
   _renderLeftNav() {
     if (this.state.left) {
       return (
-        <TouchableOpacity onPress={() => this.props.navigator.pop()}>
+        <TouchableOpacity onPress={() => this.props.leftOnPress ? this.props.leftOnPress() : this.props.navigator.pop()}>
           <View style={styles.leftContainer}>
-            <Image style={styles.leftIcon} source={leftIcon} />
+            { this.props.leftIcon ?
+                <Image style={styles.leftIcon} source={leftIcon} />
+              : null }
             { this.props.leftText ?
                 <Text style={styles.leftText}>{this.props.leftText}</Text>
               : null }

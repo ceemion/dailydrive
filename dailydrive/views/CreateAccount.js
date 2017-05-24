@@ -118,6 +118,7 @@ class CreateAccount extends Component {
         <TopBar
           title="Create Account"
           left={true}
+          leftIcon={true}
           leftText="Login"
           navigator={this.props.navigator}
         />
