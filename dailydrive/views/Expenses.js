@@ -138,7 +138,7 @@ class Expenses extends Component {
 
     return (
       <View>
-        <Text>No expenses today</Text>
+        <Text style={styles.noExpense}>You have no expenses today!</Text>
       </View>
     )
   }
@@ -172,6 +172,7 @@ class Expenses extends Component {
                   autoCapitalize="none"
                   placeholder="Amounts"
                   keyboardType="numeric"
+                  onKeyPress={() => this.setState({message: {}})}
                 />
 
                 <TextInput
@@ -182,6 +183,7 @@ class Expenses extends Component {
                   placeholder="Details"
                   keyboardType="default"
                   returnKeyType="done"
+                  onKeyPress={() => this.setState({message: {}})}
                 />
               </View> : null
             }
@@ -226,6 +228,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     padding: 10,
+    textAlign: 'center'
+  },
+  noExpense: {
+    color: textMute,
+    marginTop: 20,
     textAlign: 'center'
   }
 });
