@@ -109,6 +109,14 @@ class Database {
     const userId = firebase.auth().currentUser.uid;
     return firebase.database().ref(`/user-expenses/${TODAY}/${userId}`);
   }
+
+  static deleteExpense(userId, expenseId) {
+    const expensesPath = `/expenses/${TODAY}/${expenseId}`;
+    const userExpensesPath = `/user-expenses/${TODAY}/${userId}/${expenseId}`;
+
+    firebase.database().ref(expensesPath).remove();
+    firebase.database().ref(userExpensesPath).remove();
+  }
 }
 
 export default Database;

@@ -11,6 +11,7 @@ import {
     ScrollView,
     StyleSheet,
     dismissKeyboard,
+    TouchableOpacity,
     ActivityIndicator
 } from 'react-native';
 import {
@@ -20,6 +21,7 @@ import {
 import {
   white,
   textMute,
+  listBorder,
   inputBorder
 } from '../utils/colors';
 import DismissKeyboard from 'dismissKeyboard';
@@ -66,6 +68,7 @@ class Expenses extends Component {
 
     this.toggleExpenseForm = this.toggleExpenseForm.bind(this);
     this.addExpense = this.addExpense.bind(this);
+    this.deleteExpense = this.deleteExpense.bind(this);
     this.populateExpenses = this.populateExpenses.bind(this);
   }
 
@@ -117,6 +120,15 @@ class Expenses extends Component {
     }
   }
 
+  deleteExpense(expenseId) {
+    try {
+      Database.deleteExpense(this.state.user.uid, expenseId)
+    }
+    catch(error) {
+      console.log('delete error: ', error)
+    }
+  }
+
   populateExpenses() {
     if (this.state.working) { return; }
 
@@ -126,11 +138,25 @@ class Expenses extends Component {
       return (
         expenses.map((expense, $index) => {
           return (
-            <View key={$index}>
-              <Text>Amount {expense.amount}</Text>
-              <Text>Details {expense.details}</Text>
-              <Text>Date {expense.createdAt}</Text>
-            </View>
+            <TouchableOpacity
+              onLongPress={() => AlertIOS.alert(
+                'Delete Expense',
+                'Are you sure you want to delete this expense?',
+                [
+                  {text: 'Cancel', style: 'cancel'},
+                  {
+                    text: 'Delete',
+                    onPress: () => this.deleteExpense(expense.expenseId),
+                    style: 'destructive'
+                  }
+                ])}
+              key={$index}>
+              <View>
+                <Text>Amount {expense.amount}</Text>
+                <Text>Details {expense.details}</Text>
+                <Text>Date {expense.createdAt}</Text>
+              </View>
+            </TouchableOpacity>
           )
         })
       )
@@ -215,7 +241,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center'
   },
-  expensesContainer: {},
+  expensesContainer: {
+    borderTopColor: listBorder,
+    borderTopWidth: 0.5,
+    marginLeft: 4,
+    marginRight: 4
+  },
   working: {
     marginTop: 10
   },
