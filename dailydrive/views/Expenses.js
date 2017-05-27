@@ -9,6 +9,7 @@ import {
     AlertIOS,
     TextInput,
     ScrollView,
+    Dimensions,
     StyleSheet,
     dismissKeyboard,
     TouchableOpacity,
@@ -19,12 +20,14 @@ import {
   titleHeight
 } from '../utils/variables';
 import {
+  text,
   white,
   textMute,
   listBorder,
   inputBorder
 } from '../utils/colors';
 import DismissKeyboard from 'dismissKeyboard';
+import moment from 'moment';
 
 import * as firebase from "firebase";
 import Database from '../firebase/database';
@@ -32,6 +35,8 @@ import Database from '../firebase/database';
 import TopBar from './TopBar';
 import Alert from './Alert';
 import AddExpenseIcon from '../assets/images/header_bar_icons/add_expense.png';
+
+const width = Dimensions.get('window').width;
 
 class Expenses extends Component {
   constructor(props) {
@@ -141,7 +146,7 @@ class Expenses extends Component {
             <TouchableOpacity
               onLongPress={() => AlertIOS.alert(
                 'Delete Expense',
-                'Are you sure you want to delete this expense?',
+                `Are you sure you want to delete your expense of NGN ${expense.amount}?`,
                 [
                   {text: 'Cancel', style: 'cancel'},
                   {
@@ -151,22 +156,20 @@ class Expenses extends Component {
                   }
                 ])}
               key={$index}>
-              <View>
-                <Text>Amount {expense.amount}</Text>
-                <Text>Details {expense.details}</Text>
-                <Text>Date {expense.createdAt}</Text>
+              <View style={styles.expenseBox}>
+                <Text style={styles.currency}>NGN</Text>
+                <Text style={styles.amount}>{expense.amount}</Text>
+                <Text style={styles.subText}>{expense.details}</Text>
+
+                <View style={styles.timeBox}>
+                  <Text style={styles.subText}>{moment(expense.createdAt).calendar()}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           )
         })
       )
     }
-
-    return (
-      <View>
-        <Text style={styles.noExpense}>You have no expenses today!</Text>
-      </View>
-    )
   }
 
   render() {
@@ -186,7 +189,7 @@ class Expenses extends Component {
         <ScrollView style={styles.content}>
           <Text style={styles.currentDate}>Today: {CURRENT_DATE}</Text>
 
-          <View style={styles.expensesContainer}>
+          <View>
             { this.state.adding ?
               <View>
                 <Alert message={this.state.message} />
@@ -215,9 +218,15 @@ class Expenses extends Component {
             }
           </View>
 
-          <View>
+          <View style={styles.expensesContainer}>
             {this.populateExpenses()}
           </View>
+
+          { !this.state.working && !this.state.dailyExpenses.length ?
+            <View>
+              <Text style={styles.noExpense}>You have no expenses today!</Text>
+            </View> : null
+          }
 
           <View style={styles.working}>
             { this.state.working ?
@@ -242,10 +251,14 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   expensesContainer: {
+    alignItems: 'flex-start',
     borderTopColor: listBorder,
     borderTopWidth: 0.5,
-    marginLeft: 4,
-    marginRight: 4
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    margin: 5,
   },
   working: {
     marginTop: 10
@@ -264,6 +277,42 @@ const styles = StyleSheet.create({
   noExpense: {
     color: textMute,
     marginTop: 20,
+    textAlign: 'center'
+  },
+  expenseBox: {
+    backgroundColor: white,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 2,
+    borderWidth: 0.5,
+    margin: 5,
+    padding: 10,
+    shadowColor: '#000000',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    width: (width - 30)/2
+  },
+  currency: {
+    color: text,
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  amount: {
+    color: text,
+    fontSize: 30,
+    marginBottom: 5,
+    textAlign: 'center'
+  },
+  timeBox: {
+    borderTopColor: 'rgba(0,0,0,0.15)',
+    borderTopWidth: 0.5,
+    marginTop: 6,
+    paddingTop: 6
+  },
+  subText: {
+    color: text,
+    fontSize: 13,
+    opacity: 0.8,
     textAlign: 'center'
   }
 });

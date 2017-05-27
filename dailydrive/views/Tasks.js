@@ -39,7 +39,7 @@ import RemoveTaskIcon from '../assets/images/remove_task.png';
 import uncheckedIcon from '../assets/images/unchecked.png';
 import checkedIcon from '../assets/images/checked.png';
 
-let width = Dimensions.get('window').width;
+const width = Dimensions.get('window').width;
 
 class Tasks extends Component {
   constructor(props) {
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   taskTitle: {
     color: text,
-    fontSize: 17
+    fontSize: 20
   },
   completedContainer: {
     borderTopColor: 'rgba(0,0,0,0.15)',
