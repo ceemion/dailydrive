@@ -55,7 +55,7 @@ class Database {
     return firebase.database().ref().update(updates);
   }
 
-  static listenForUserTasks() {
+  static getUserTasks() {
     const userId = firebase.auth().currentUser.uid;
     return firebase.database().ref(`/user-tasks/${TODAY}/${userId}`);
   }
@@ -105,7 +105,7 @@ class Database {
     return firebase.database().ref().update(updates);
   }
 
-  static listenForUserExpenses() {
+  static getUserExpenses() {
     const userId = firebase.auth().currentUser.uid;
     return firebase.database().ref(`/user-expenses/${TODAY}/${userId}`);
   }
@@ -117,6 +117,74 @@ class Database {
     firebase.database().ref(expensesPath).remove();
     firebase.database().ref(userExpensesPath).remove();
   }
+
+  /**
+   * Get report for a registered user
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+
+  static getUserReport() {
+    const userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref(`/user-reports/${TODAY}/${userId}`).orderByChild('uid').equalTo(userId);
+  }
+
+  /**
+   * Updates report for a registered user
+   * @param user
+   * @param data
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+
+  // static createOrUpdateReport(user, data) {
+  //   let report = null,
+  //       reportKey = null,
+  //       updates = {},
+  //       structure = {};
+
+  //   this.getUserReport().on('value', snapshot => {
+  //     // debugger;
+  //     if (snapshot.val()) {
+  //       let keys = Object.keys(snapshot.val());
+        
+  //       for (const key of keys) {
+  //         reportKey = key;
+  //         report = snapshot.val()[key];
+  //       }
+
+  //       let newTaskCount = report.tasksCount + 1;
+
+  //       const reportPath = `/reports/${TODAY}/${reportKey}`;
+  //       const userReportPath = `/user-reports/${TODAY}/${user.uid}/${reportKey}`;
+        
+  //       console.log('our report ', reportKey)
+  //       structure = {
+  //         tasksCount: newTaskCount
+  //       }
+
+  //       firebase.database().ref(reportPath).update(structure)
+  //       firebase.database().ref(userReportPath).update(structure)
+
+  //     }
+  //     else {
+  //       structure = {
+  //         owner: user.displayName,
+  //         uid: user.uid,
+  //         totalExpenses: data.amount || 0,
+  //         tasksCount: 0, // check this
+  //         tasksCompleted: 0,
+  //         createdAt: NOW,
+  //         updatedAt: NOW
+  //       };
+
+  //       reportKey = firebase.database().ref().child('reports').push().key;
+
+  //       updates[`/reports/${TODAY}/${reportKey}`] = structure;
+  //       updates[`/user-reports/${TODAY}/${user.uid}/${reportKey}`] = structure;
+
+  //       firebase.database().ref().update(updates);
+  //     }
+  //   }) 
+  // }
 }
 
 export default Database;

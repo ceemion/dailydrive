@@ -9,13 +9,13 @@ import {
     AlertIOS,
     TextInput,
     ScrollView,
-    Dimensions,
     StyleSheet,
     dismissKeyboard,
     TouchableOpacity,
     ActivityIndicator
 } from 'react-native';
 import {
+  width,
   CURRENT_DATE,
   titleHeight
 } from '../utils/variables';
@@ -36,8 +36,6 @@ import TopBar from './TopBar';
 import Alert from './Alert';
 import AddExpenseIcon from '../assets/images/header_bar_icons/add_expense.png';
 
-const width = Dimensions.get('window').width;
-
 class Expenses extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +50,7 @@ class Expenses extends Component {
       dailyExpenses: []
     };
 
-    Database.listenForUserExpenses().on('value', snapshot => {
+    Database.getUserExpenses().on('value', snapshot => {
         let arr = [];
 
         if (snapshot.val()) {

@@ -10,7 +10,6 @@ import {
     Button,
     AlertIOS,
     ScrollView,
-    Dimensions,
     StyleSheet,
     dismissKeyboard,
     TouchableOpacity,
@@ -19,6 +18,7 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import {
+  width,
   CURRENT_DATE,
   titleHeight
 } from '../utils/variables';
@@ -39,8 +39,6 @@ import RemoveTaskIcon from '../assets/images/remove_task.png';
 import uncheckedIcon from '../assets/images/unchecked.png';
 import checkedIcon from '../assets/images/checked.png';
 
-const width = Dimensions.get('window').width;
-
 class Tasks extends Component {
   constructor(props) {
     super(props);
@@ -51,14 +49,15 @@ class Tasks extends Component {
       dailyTasks: []
     };
 
-    Database.listenForUserTasks().on('value', snapshot => {
+    Database.getUserTasks().on('value', snapshot => {
+        const tasks = snapshot.val();
         let taskArray = [];
 
-        if (snapshot.val()) {
-          let keys = Object.keys(snapshot.val());
+        if (tasks) {
+          let keys = Object.keys(tasks);
 
           for (const key of keys) {
-            let i = snapshot.val()[key];
+            let i = tasks[key];
             i.taskId = key;
             taskArray.push(i)
           }
