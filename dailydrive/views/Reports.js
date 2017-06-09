@@ -14,9 +14,12 @@ import {
 } from 'react-native';
 import DismissKeyboard from "dismissKeyboard";
 import {
+  width,
   titleHeight
 } from '../utils/variables';
 import {
+  text,
+  white,
   primary
 } from '../utils/colors';
 import moment from 'moment';
@@ -165,12 +168,15 @@ class Reports extends Component {
     }
 
     return (
-      <View key={index}>
-        <Text>{day}</Text>
-        <Text>{tasksView}</Text>
-        <Text>tasks {!count ? 'logged' : 'completed'}</Text>
-        <Text>NGN {expenses ? expenses : 0}</Text>
-        <Text>spent</Text>
+      <View key={index} style={styles.reportBox}>
+        <Text style={styles.reportDay}>{day}</Text>
+        <Text style={styles.tasksSummary}>{tasksView}</Text>
+        <Text style={styles.subText}>tasks {!count ? 'logged' : 'completed'}</Text>
+        <View style={styles.totalExpenses}>
+          <Text style={styles.currency}>NGN </Text>
+          <Text style={styles.amount}>{expenses ? expenses : 0}</Text>
+        </View>
+        <Text style={styles.subText}>spent</Text>
       </View>
     )
   }
@@ -230,7 +236,59 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   content: {},
-  reportsContainer: {},
+  reportsContainer: {
+    alignItems: 'flex-start',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    margin: 5
+  },
+  reportBox: {
+    backgroundColor: white,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 2,
+    borderWidth: 0.5,
+    margin: 5,
+    padding: 10,
+    shadowColor: '#000000',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    width: (width - 30)/2
+  },
+  reportDay: {
+    color: text,
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  tasksSummary: {
+    color: text,
+    fontSize: 30,
+    marginTop: 10,
+    textAlign: 'center'
+  },
+  totalExpenses: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 10
+  },
+  currency: {
+    fontSize: 15
+  },
+  amount: {
+    fontSize: 30
+  },
+  subText: {
+    color: text,
+    fontSize: 13,
+    marginBottom: 5,
+    marginTop: 5,
+    opacity: 0.9,
+    textAlign: 'center'
+  },
   working: {
     marginTop: 10
   },
