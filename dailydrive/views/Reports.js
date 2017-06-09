@@ -31,14 +31,40 @@ class Reports extends Component {
 
     this.state = {
       working: true,
+      refreshing: false,
+      reportId: null,
       tasksCount: 0,
       tasksCompleted: 0,
-      totalExpenses: 0
+      totalExpenses: 0,
+      reports: []
     };
+
+    Database.getAllReports().on('value', snapshot => {
+      const reports = snapshot.val();
+      let array = [];
+
+      if (reports) {
+        let keys = Object.keys(reports);
+
+        for (const key of keys) {
+          let r = reports[key];
+          r.taskId = key;
+          array.push(r)
+        }
+      }
+
+      this.setState({
+        working: false,
+        reports: array
+      })
+    })
+
+    this.reportShell = this.reportShell.bind(this);
   }
 
   componentDidMount() {
-    this.computeReport()
+    this.reportToday();
+    this.computeReport();
   }
 
   _onRefresh = () => {
@@ -48,6 +74,25 @@ class Reports extends Component {
   computeReport = () => {
     this.tasksLogic();
     this.expensesLogic();
+    this.updateReports();
+  }
+
+  reportToday = () => {
+    Database.getUserReport().once('value')
+      .then(snapshot => {
+        const report = snapshot.val();
+
+        if (report) {
+          const key = Object.keys(report)[0];
+
+          this.setState({
+            reportId: key
+          })
+        }
+        else {
+          Database.saveReport()
+        }
+      })
   }
 
   tasksLogic = () => {
@@ -96,7 +141,53 @@ class Reports extends Component {
       })
   }
 
+  updateReports = () => {
+    const state = this.state;
+    const id = state.reportId;
+    const reportData = {
+      tasksCount: state.tasksCount,
+      tasksCompleted: state.tasksCompleted,
+      totalExpenses: state.totalExpenses,
+    }
+
+    if (id) {
+      Database.updateReport(id, reportData)
+    }
+  }
+
+  reportShell(index, day, count, complete, expenses) {
+    let tasksView = '';
+
+    if (!count) {
+      tasksView = 'NO'
+    } else {
+      tasksView = `${complete} of ${count}`
+    }
+
+    return (
+      <View key={index}>
+        <Text>{day}</Text>
+        <Text>{tasksView}</Text>
+        <Text>tasks {!count ? 'logged' : 'completed'}</Text>
+        <Text>NGN {expenses ? expenses : 0}</Text>
+        <Text>spent</Text>
+      </View>
+    )
+  }
+
   render() {
+    let allReports = this.state.reports.slice().map((r, $i) => {
+      return (
+        this.reportShell(
+          $i,
+          moment(r.createdAt).format('Do'),
+          r.tasksCount,
+          r.tasksCompleted,
+          r.totalExpenses
+          )
+      )
+    });
+
     return (
       <View style={styles.container} onPress={() => {DismissKeyboard()}}>
         <TopBar
@@ -107,7 +198,7 @@ class Reports extends Component {
           style={styles.content}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.working}
+              refreshing={this.state.refreshing}
               onRefresh={this._onRefresh}
               tintColor={primary}
             />
@@ -115,13 +206,7 @@ class Reports extends Component {
           <Text style={styles.currentMoment}>{moment().format('MMMM YYYY')}</Text>
 
           <View style={styles.reportsContainer}>
-            <View>
-              <Text>{moment().format('Do')}</Text>
-              <Text>{this.state.tasksCompleted} of {this.state.tasksCount}</Text>
-              <Text>tasks completed</Text>
-              <Text>NGN {this.state.totalExpenses}</Text>
-              <Text>spent</Text>
-            </View>
+            {allReports}
           </View>
 
           <View style={styles.working}>

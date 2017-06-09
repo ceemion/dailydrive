@@ -14,7 +14,6 @@ class Database {
    * @param email
    * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
    */
-
   static setsUserData(userId, name, email) {
     const userPath = `users/${userId}`;
 
@@ -36,7 +35,6 @@ class Database {
    * @param title
    * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
    */
-
   static createTask(user, title) {
     const taskData = {
       owner: user.displayName,
@@ -86,7 +84,6 @@ class Database {
    * @param data
    * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
    */
-
   static addExpense(user, data) {
     const expenseData = {
       owner: user.displayName,
@@ -119,72 +116,62 @@ class Database {
   }
 
   /**
-   * Get report for a registered user
-   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
-   */
-
-  static getUserReport() {
-    const userId = firebase.auth().currentUser.uid;
-    return firebase.database().ref(`/user-reports/${TODAY}/${userId}`).orderByChild('uid').equalTo(userId);
-  }
-
-  /**
-   * Updates report for a registered user
-   * @param user
+   * Save report for a registered user
    * @param data
    * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
    */
+  static saveReport(data) {
+    const user = firebase.auth().currentUser;
+    let updates = {};
 
-  // static createOrUpdateReport(user, data) {
-  //   let report = null,
-  //       reportKey = null,
-  //       updates = {},
-  //       structure = {};
+    let payload = Object.assign({}, {
+      owner: user.displayName,
+      uid: user.uid,
+      createdAt: NOW,
+      updatedAt: NOW
+    }, data);
+    
+    reportKey = firebase.database().ref().child('reports').push().key;
 
-  //   this.getUserReport().on('value', snapshot => {
-  //     // debugger;
-  //     if (snapshot.val()) {
-  //       let keys = Object.keys(snapshot.val());
-        
-  //       for (const key of keys) {
-  //         reportKey = key;
-  //         report = snapshot.val()[key];
-  //       }
+    updates[`/reports/${user.uid}/${reportKey}`] = payload;
+    updates[`/user-reports/${TODAY}/${user.uid}/${reportKey}`] = payload;
 
-  //       let newTaskCount = report.tasksCount + 1;
+    firebase.database().ref().update(updates);
+  }
 
-  //       const reportPath = `/reports/${TODAY}/${reportKey}`;
-  //       const userReportPath = `/user-reports/${TODAY}/${user.uid}/${reportKey}`;
-        
-  //       console.log('our report ', reportKey)
-  //       structure = {
-  //         tasksCount: newTaskCount
-  //       }
+  /**
+   * Update an existing report for a registered user
+   * @param reportId
+   * @param data
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+  static updateReport(reportId, data) {
+    const user = firebase.auth().currentUser;    
+    const reportPath = `/reports/${user.uid}/${reportId}`;
+    const userReportPath = `/user-reports/${TODAY}/${user.uid}/${reportId}`;
+    const payload = { ...data, updatedAt: NOW};
 
-  //       firebase.database().ref(reportPath).update(structure)
-  //       firebase.database().ref(userReportPath).update(structure)
+    firebase.database().ref(reportPath).update(payload)
+    firebase.database().ref(userReportPath).update(payload)
+  }
 
-  //     }
-  //     else {
-  //       structure = {
-  //         owner: user.displayName,
-  //         uid: user.uid,
-  //         totalExpenses: data.amount || 0,
-  //         tasksCount: 0, // check this
-  //         tasksCompleted: 0,
-  //         createdAt: NOW,
-  //         updatedAt: NOW
-  //       };
+  /**
+   * Get report for a registered user
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+  static getUserReport() {
+    const userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref(`/user-reports/${TODAY}/${userId}`);
+  }
 
-  //       reportKey = firebase.database().ref().child('reports').push().key;
-
-  //       updates[`/reports/${TODAY}/${reportKey}`] = structure;
-  //       updates[`/user-reports/${TODAY}/${user.uid}/${reportKey}`] = structure;
-
-  //       firebase.database().ref().update(updates);
-  //     }
-  //   }) 
-  // }
+  /**
+   * Get all report for a registered user
+   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+   */
+  static getAllReports() {
+    const userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref(`/reports/${userId}`);
+  }
 }
 
 export default Database;
